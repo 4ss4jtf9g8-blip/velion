@@ -10,6 +10,7 @@
 <style>
 body{background:#0A0A0A;color:#fff}
 .compare{position:relative;overflow:hidden;border-radius:20px}
+.compare img{width:100%;height:400px;object-fit:cover}
 .compare-after{position:absolute;top:0;left:0;width:50%}
 .slider{position:absolute;top:0;left:50%;width:3px;height:100%;background:#00FF9F}
 </style>
@@ -22,9 +23,9 @@ body{background:#0A0A0A;color:#fff}
 <h1 class="text-5xl mt-6 mb-10">LUNAR</h1>
 
 <div class="compare mb-10">
-<img src="https://images.unsplash.com/photo-1521334884684-d80222895322">
+<img src="https://images.unsplash.com/photo-1555529669-e69e7aa0ba9a">
 <div class="compare-after">
-<img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b">
+<img src="https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da">
 </div>
 <div class="slider"></div>
 </div>
@@ -44,9 +45,7 @@ const after=document.querySelector('.compare-after');
 const slider=document.querySelector('.slider');
 
 el.onmousemove=(e)=>{
-let x=e.offsetX;
-let w=el.offsetWidth;
-let p=(x/w)*100;
+let p=(e.offsetX/el.offsetWidth)*100;
 after.style.width=p+"%";
 slider.style.left=p+"%";
 }
