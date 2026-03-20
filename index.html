@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velion Agency</title>
+
+<style>
+* {margin:0; padding:0; box-sizing:border-box;}
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #020617;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* Градиентный фон */
+.hero {
+  height: 100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  background: linear-gradient(135deg,#0ea5e9,#6366f1);
+  animation: gradientMove 10s infinite alternate;
+}
+@keyframes gradientMove {
+  0% {filter:hue-rotate(0deg);}
+  100% {filter:hue-rotate(40deg);}
+}
+
+.hero h1 {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+.hero p {
+  font-size: 20px;
+  opacity: 0.9;
+}
+
+/* стеклянный эффект */
+.glass {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+/* секции */
+section {
+  padding: 80px 20px;
+  max-width: 1100px;
+  margin:auto;
+}
+
+/* карточки */
+.grid {
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+  gap:20px;
+}
+.card {
+  padding:25px;
+  border-radius:16px;
+  background: rgba(255,255,255,0.05);
+  transition:0.4s;
+}
+.card:hover {
+  transform: translateY(-10px) scale(1.03);
+  background: rgba(255,255,255,0.1);
+}
+
+/* кнопка */
+.btn {
+  margin-top:20px;
+  padding:12px 25px;
+  background:#fff;
+  color:#000;
+  border-radius:10px;
+  text-decoration:none;
+  transition:0.3s;
+}
+.btn:hover {
+  transform: scale(1.1);
+}
+
+/* анимация появления */
+.fade {
+  opacity:0;
+  transform: translateY(40px);
+  transition:0.8s;
+}
+.fade.show {
+  opacity:1;
+  transform: translateY(0);
+}
+
+footer {
+  text-align:center;
+  padding:20px;
+  opacity:0.6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Главный экран -->
+<div class="hero">
+  <h1>Velion</h1>
+  <p>Создаём цифровой стиль будущего 🚀</p>
+  <a href="#portfolio" class="btn">Смотреть работы</a>
+</div>
+
+<section class="fade">
+  <h2>О нас</h2>
+  <p>Мы digital-агентство, которое делает современные сайты, брендинг и помогает бизнесу расти.</p>
+</section>
+
+<section id="portfolio" class="fade">
+  <h2>Портфолио</h2>
+  <div class="grid">
+    <div class="card">🔥 Лендинг под ключ</div>
+    <div class="card">🛒 Интернет-магазин</div>
+    <div class="card">🎨 Редизайн сайта</div>
+  </div>
+</section>
+
+<section class="fade">
+  <h2>Отзывы</h2>
+  <div class="grid">
+    <div class="card">"Очень современный дизайн!"</div>
+    <div class="card">"Сайт окупился за месяц"</div>
+    <div class="card">"Лучшее агентство 💯"</div>
+  </div>
+</section>
+
+<section class="fade">
+  <h2>Контакты</h2>
+  <p>Email: velion@email.com</p>
+  <p>Telegram: @velion</p>
+</section>
+
+<footer>
+  © 2026 Velion Agency
+</footer>
+
+<script>
+const items = document.querySelectorAll('.fade');
+
+function animate() {
+  const trigger = window.innerHeight * 0.85;
+  items.forEach(el => {
+    const top = el.getBoundingClientRect().top;
+    if(top < trigger){
+      el.classList.add('show');
+    }
+  });
+}
+
+window.addEventListener('scroll', animate);
+animate();
+</script>
+
+</body>
+</html>
