@@ -10,11 +10,26 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
+html{scroll-behavior:smooth;}
+
 body{
   font-family:'Inter',sans-serif;
   background:#0a0a0a;
   color:#fff;
-  overflow-x:hidden;
+  cursor:none;
+}
+
+/* CURSOR */
+.cursor{
+  width:18px;
+  height:18px;
+  border:2px solid #fff;
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  transition:.1s;
+  z-index:999;
 }
 
 /* HEADER */
@@ -24,7 +39,6 @@ header{
   display:flex;
   justify-content:space-between;
   padding:25px 50px;
-  background:rgba(0,0,0,0.4);
   backdrop-filter:blur(10px);
   z-index:10;
 }
@@ -38,51 +52,54 @@ header{
   position:relative;
 }
 
-/* ФИОЛЕТОВАЯ СФЕРА */
 .sphere{
   position:absolute;
   width:500px;
   height:500px;
   background: radial-gradient(circle,#6d28d9,#4f46e5,transparent);
   filter:blur(120px);
-  top:20%;
-  left:30%;
-  animation:float 8s ease-in-out infinite;
+  animation:float 8s infinite;
 }
 
 @keyframes float{
   0%{transform:translate(0,0)}
-  50%{transform:translate(60px,-40px)}
+  50%{transform:translate(80px,-40px)}
   100%{transform:translate(0,0)}
 }
 
 .hero h1{
-  font-size:72px;
+  font-size:70px;
 }
+
 .hero p{
   margin-top:20px;
   color:#aaa;
 }
 
-/* BUTTON */
-.btn{
-  display:inline-block;
-  margin-top:25px;
-  padding:14px 30px;
-  background:#fff;
-  color:#000;
-  border-radius:999px;
-  text-decoration:none;
+/* STATS */
+.stats{
+  display:flex;
+  gap:50px;
+  margin-top:30px;
+}
+.stat{
+  font-size:22px;
+  color:#ccc;
 }
 
 /* SECTION */
 .section{
   padding:120px 60px;
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s;
+}
+.section.show{
+  opacity:1;
+  transform:translateY(0);
 }
 
-h2{
-  margin-bottom:40px;
-}
+h2{margin-bottom:40px}
 
 /* GRID */
 .grid{
@@ -93,50 +110,76 @@ h2{
 
 /* CASE */
 .case{
-  border-radius:16px;
-  overflow:hidden;
+  cursor:pointer;
 }
 .case img{
   width:100%;
-  height:220px;
-  object-fit:cover;
+  border-radius:14px;
   transition:.5s;
 }
 .case:hover img{
-  transform:scale(1.1);
+  transform:scale(1.05);
 }
 
-/* ОТЗЫВЫ ЧАТ */
+/* CHAT REVIEWS */
 .chat{
   max-width:600px;
 }
 .msg{
-  background:#111;
-  padding:15px 20px;
-  border-radius:14px;
+  display:flex;
+  gap:10px;
   margin-bottom:15px;
 }
-.msg span{
+.avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+}
+.bubble{
+  background:#111;
+  padding:12px 16px;
+  border-radius:12px;
+}
+.bubble span{
   display:block;
   font-size:12px;
   color:#777;
-  margin-top:5px;
 }
 
-/* CONTACT */
-a{
-  color:#fff;
-  text-decoration:none;
-  border-bottom:1px solid #555;
+/* CASE PAGE */
+.case-page{
+  display:none;
+  padding:100px 60px;
+  animation:fade .6s;
 }
+.case-page.active{display:block;}
+
+@keyframes fade{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+/* TEXT ANIMATION */
+.letter span{
+  opacity:0;
+  display:inline-block;
+  animation:letter .5s forwards;
+}
+@keyframes letter{
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* LINKS */
+a{color:#fff;text-decoration:none;border-bottom:1px solid #555;}
 </style>
 </head>
 
 <body>
 
+<div class="cursor"></div>
+
 <header>
   <div>Velion</div>
-  <div>menu</div>
 </header>
 
 <!-- HERO -->
@@ -146,47 +189,62 @@ a{
   <div>
     <h1>Создаём сайты,<br>которые продают</h1>
     <p>Премиальный дизайн и разработка</p>
-    <a class="btn" href="#portfolio">Смотреть кейсы</a>
+
+    <div class="stats">
+      <div class="stat">+30% конверсии</div>
+      <div class="stat">50+ проектов</div>
+      <div class="stat">быстро и качественно</div>
+    </div>
   </div>
+</section>
+
+<!-- SLOGAN -->
+<section class="section">
+  <h2>Мы делаем дизайн, которому доверяют</h2>
 </section>
 
 <!-- PORTFOLIO -->
-<section id="portfolio" class="section">
+<section class="section">
   <h2>Кейсы</h2>
 
   <div class="grid">
-    <div class="case">
-      <img src="https://images.unsplash.com/photo-1547658719-da2b51169166">
-    </div>
-
-    <div class="case">
+    <div class="case" onclick="openCase('case1')">
       <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d">
     </div>
 
-    <div class="case">
-      <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7">
+    <div class="case" onclick="openCase('case2')">
+      <img src="https://images.unsplash.com/photo-1547658719-da2b51169166">
     </div>
   </div>
 </section>
 
-<!-- ОТЗЫВЫ -->
+<!-- REVIEWS -->
 <section class="section">
   <h2>Отзывы</h2>
 
   <div class="chat">
     <div class="msg">
-      Очень сильный дизайн, выглядит дорого
-      <span>Иван • 5 минут назад</span>
+      <img class="avatar" src="https://i.pravatar.cc/40?1">
+      <div class="bubble">
+        Очень сильный дизайн
+        <span>Иван • 5 мин назад</span>
+      </div>
     </div>
 
     <div class="msg">
-      После редизайна продажи выросли
-      <span>Алексей • 12 минут назад</span>
+      <img class="avatar" src="https://i.pravatar.cc/40?2">
+      <div class="bubble">
+        Продажи выросли 🔥
+        <span>Алексей • 10 мин назад</span>
+      </div>
     </div>
 
     <div class="msg">
-      Лучшее агентство с которым работал
-      <span>Мария • 1 час назад</span>
+      <img class="avatar" src="https://i.pravatar.cc/40?3">
+      <div class="bubble">
+        Всё сделали быстро и красиво
+        <span>Мария • 1 час назад</span>
+      </div>
     </div>
   </div>
 </section>
@@ -198,19 +256,62 @@ a{
   <p>Email: velion.agency@gmail.com</p>
 
   <p>
-    Telegram:
-    <a href="https://t.me/m/TYhoXAWyZGVi" target="_blank">
-      написать
-    </a>
+    Написать:
+    <a href="https://t.me/m/TYhoXAWyZGVi" target="_blank">в Telegram</a>
   </p>
 
   <p>
-    Наши соцсети:
-    <a href="https://t.me/velion_agency" target="_blank">
-      Velion
-    </a>
+    Соцсети:
+    <a href="https://t.me/velion_agency" target="_blank">Velion</a>
   </p>
 </section>
+
+<!-- CASE PAGES -->
+<div id="case1" class="case-page">
+  <h1 class="letter">Кейс: Интернет-магазин</h1>
+  <p>Переделали дизайн → конверсия выросла на 30%</p>
+</div>
+
+<div id="case2" class="case-page">
+  <h1 class="letter">Кейс: Лендинг</h1>
+  <p>Редизайн → рост заявок в 2 раза</p>
+</div>
+
+<script>
+// cursor
+const cursor=document.querySelector('.cursor');
+document.addEventListener('mousemove',e=>{
+  cursor.style.left=e.clientX+'px';
+  cursor.style.top=e.clientY+'px';
+});
+
+// scroll animation
+const sections=document.querySelectorAll('.section');
+window.addEventListener('scroll',()=>{
+  sections.forEach(sec=>{
+    if(sec.getBoundingClientRect().top<window.innerHeight-100){
+      sec.classList.add('show');
+    }
+  });
+});
+
+// open case
+function openCase(id){
+  document.querySelectorAll('.case-page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+
+  // текст по буквам
+  const el=document.getElementById(id).querySelector('h1');
+  const text=el.innerText;
+  el.innerHTML='';
+  text.split('').forEach((l,i)=>{
+    let span=document.createElement('span');
+    span.innerText=l;
+    span.style.animationDelay=i*0.05+'s';
+    el.appendChild(span);
+  });
+}
+</script>
 
 </body>
 </html>
