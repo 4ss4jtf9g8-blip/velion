@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LUNAR</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{background:#0A0A0A;color:#fff}
+.compare{position:relative;overflow:hidden;border-radius:20px}
+.compare-after{position:absolute;top:0;left:0;width:50%}
+.slider{position:absolute;top:0;left:50%;width:3px;height:100%;background:#00FF9F}
+</style>
+</head>
+
+<body class="p-10">
+
+<a href="index.html">← Назад</a>
+
+<h1 class="text-5xl mt-6 mb-10">LUNAR</h1>
+
+<div class="compare mb-10">
+<img src="https://images.unsplash.com/photo-1521334884684-d80222895322">
+<div class="compare-after">
+<img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b">
+</div>
+<div class="slider"></div>
+</div>
+
+<p>Конверсия: 1.9% → 6.7% (+252%)</p>
+<p>Выручка: 1.2 млн → 4.1 млн ₽</p>
+<p>Средний чек: 4200 → 7800 ₽</p>
+
+<a href="https://t.me/m/TYhoXAWyZGVi"
+class="mt-6 inline-block bg-[#00FF9F] text-black px-6 py-3 rounded-xl">
+Связаться
+</a>
+
+<script>
+const el=document.querySelector('.compare');
+const after=document.querySelector('.compare-after');
+const slider=document.querySelector('.slider');
+
+el.onmousemove=(e)=>{
+let x=e.offsetX;
+let w=el.offsetWidth;
+let p=(x/w)*100;
+after.style.width=p+"%";
+slider.style.left=p+"%";
+}
+</script>
+
+</body>
+</html>
