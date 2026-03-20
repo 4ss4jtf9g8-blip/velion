@@ -14,114 +14,106 @@ body{
   font-family:'Inter',sans-serif;
   background:#0a0a0a;
   color:#fff;
-  overflow-x:hidden;
+  cursor:none;
+}
+
+/* КАСТОМНЫЙ КУРСОР */
+.cursor{
+  width:20px;
+  height:20px;
+  border:2px solid #fff;
+  border-radius:50%;
+  position:fixed;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  transition:transform .1s;
+  z-index:999;
 }
 
 /* HEADER */
 header{
   display:flex;
   justify-content:space-between;
-  padding:40px 60px;
-  position:fixed;
-  width:100%;
-  background:rgba(10,10,10,0.6);
-  backdrop-filter:blur(10px);
-  z-index:10;
+  padding:30px 50px;
 }
-
 nav a{
-  margin-left:30px;
+  margin-left:25px;
   color:#777;
   cursor:pointer;
-  transition:.3s;
 }
 nav a:hover{color:#fff}
 
+/* СТРАНИЦЫ */
+.page{display:none;padding:50px;animation:fade .6s}
+.page.active{display:block}
+
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1}
+}
+
 /* HERO */
 .hero{
-  height:100vh;
+  height:80vh;
   display:flex;
   align-items:center;
-  padding:0 80px;
 }
-
 .hero h1{
-  font-size:80px;
-  font-weight:600;
-  line-height:1.05;
-  letter-spacing:-2px;
+  font-size:72px;
 }
-
 .hero p{
-  margin-top:25px;
+  margin-top:20px;
   color:#aaa;
-  font-size:20px;
-  max-width:500px;
 }
 
-/* BUTTON */
+/* КНОПКА */
 .btn{
-  margin-top:30px;
+  margin-top:25px;
   display:inline-block;
-  padding:16px 36px;
-  border-radius:999px;
+  padding:14px 30px;
   background:#fff;
   color:#000;
+  border-radius:999px;
   text-decoration:none;
-  font-weight:500;
-  transition:.3s;
-}
-.btn:hover{
-  transform:scale(1.05);
 }
 
-/* SECTIONS */
-.section{
-  padding:140px 80px;
-}
+/* СЕКЦИИ */
+.section{margin-top:120px}
+h2{margin-bottom:25px}
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:40px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:30px;
+}
+
+/* CARD */
+.card{
+  background:#111;
+  padding:25px;
+  border-radius:14px;
+  transition:.3s;
+}
+.card:hover{
+  transform:translateY(-10px);
 }
 
 /* CASE */
-.case{
-  overflow:hidden;
-  border-radius:20px;
-  cursor:pointer;
-}
-
 .case img{
   width:100%;
-  transition:1s;
-}
-.case:hover img{
-  transform:scale(1.1);
+  border-radius:12px;
+  margin-bottom:10px;
 }
 
-.case-info{
-  margin-top:15px;
-}
-
-/* BIG TEXT BLOCK */
-.big-text{
-  font-size:48px;
-  max-width:800px;
-  line-height:1.2;
-  color:#ddd;
-}
-
-/* STATS */
+/* СТАТЫ */
 .stats{
   display:flex;
-  gap:60px;
-  margin-top:60px;
+  gap:50px;
+  margin-top:40px;
 }
 .stat{
-  font-size:32px;
+  font-size:28px;
 }
 .stat span{
   display:block;
@@ -133,28 +125,25 @@ nav a:hover{color:#fff}
 
 <body>
 
+<div class="cursor"></div>
+
 <header>
   <div>Velion</div>
   <nav>
-    <a onclick="scrollToSection('portfolio')">Портфолио</a>
-    <a onclick="scrollToSection('contact')">Контакты</a>
+    <a onclick="openPage('home')">Главная</a>
+    <a onclick="openPage('portfolio')">Портфолио</a>
+    <a onclick="openPage('contact')">Контакты</a>
   </nav>
 </header>
 
-<!-- HERO -->
-<section class="hero">
-  <div>
-    <h1>Мы создаём<br>цифровые продукты<br>премиум уровня</h1>
-    <p>Velion — агентство, которое делает сайты, выглядящие дороже большинства на рынке</p>
-    <a class="btn" onclick="scrollToSection('portfolio')">Смотреть проекты</a>
-  </div>
-</section>
-
-<!-- STATEMENT -->
-<section class="section">
-  <div class="big-text">
-    Мы не просто делаем сайты.  
-    Мы создаём визуальный опыт, который повышает доверие и конверсию.
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="hero">
+    <div>
+      <h1>Digital‑агентство<br>нового уровня</h1>
+      <p>Создаём сайты, которые выглядят дорого и продают</p>
+      <a class="btn" onclick="openPage('portfolio')">Смотреть кейсы</a>
+    </div>
   </div>
 
   <div class="stats">
@@ -162,50 +151,96 @@ nav a:hover{color:#fff}
     <div class="stat">3 года<span>опыта</span></div>
     <div class="stat">+120%<span>рост</span></div>
   </div>
-</section>
 
-<!-- PORTFOLIO -->
-<section id="portfolio" class="section">
-  <h2 style="margin-bottom:40px">Проекты</h2>
-
-  <div class="grid">
-    <div class="case">
-      <img src="https://picsum.photos/600/400?1">
-      <div class="case-info">
-        <strong>Luxury Brand</strong>
-        <p>Минимализм + премиум UX</p>
-      </div>
-    </div>
-
-    <div class="case">
-      <img src="https://picsum.photos/600/400?2">
-      <div class="case-info">
-        <strong>E-commerce</strong>
-        <p>Рост продаж x2</p>
-      </div>
-    </div>
-
-    <div class="case">
-      <img src="https://picsum.photos/600/400?3">
-      <div class="case-info">
-        <strong>Startup</strong>
-        <p>Современный продуктовый сайт</p>
-      </div>
+  <div class="section">
+    <h2>Услуги</h2>
+    <div class="grid">
+      <div class="card">🔥 Лендинги под ключ</div>
+      <div class="card">🛒 Интернет-магазины</div>
+      <div class="card">🎨 UI/UX дизайн</div>
+      <div class="card">🚀 Продвижение</div>
     </div>
   </div>
-</section>
+
+  <div class="section">
+    <h2>Почему мы</h2>
+    <div class="grid">
+      <div class="card">⚡ Быстро и качественно</div>
+      <div class="card">💎 Премиум дизайн</div>
+      <div class="card">📈 Ориентир на результат</div>
+    </div>
+  </div>
+</div>
+
+<!-- PORTFOLIO -->
+<div id="portfolio" class="page">
+  <h2>Кейсы</h2>
+
+  <div class="grid">
+    <div class="card case">
+      <img src="https://picsum.photos/400/250?1">
+      <strong>Luxury Brand</strong>
+      <p>Премиальный сайт</p>
+    </div>
+
+    <div class="card case">
+      <img src="https://picsum.photos/400/250?2">
+      <strong>E-commerce</strong>
+      <p>Рост продаж</p>
+    </div>
+
+    <div class="card case">
+      <img src="https://picsum.photos/400/250?3">
+      <strong>Startup</strong>
+      <p>Современный лендинг</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Отзывы</h2>
+    <div class="grid">
+      <div class="card">“Лучший дизайн что видел”</div>
+      <div class="card">“Продажи выросли”</div>
+      <div class="card">“Очень сильная команда”</div>
+    </div>
+  </div>
+</div>
 
 <!-- CONTACT -->
-<section id="contact" class="section">
+<div id="contact" class="page">
   <h2>Контакты</h2>
-  <p style="margin-top:20px;color:#aaa">velion.agency@gmail.com</p>
-  <p style="color:#aaa">@ChatGPT velion_agency</p>
-</section>
+
+  <p>Email: velion.agency@gmail.com</p>
+
+  <p>
+    Telegram:
+    <a href="https://t.me/velion_agency" target="_blank" style="color:#fff;">
+      t.me/velion_agency
+    </a>
+  </p>
+
+  <div class="section">
+    <h2>Связаться с нами</h2>
+    <p style="color:#aaa;max-width:400px">
+      Напишите нам в Telegram и мы ответим в течение 10 минут.
+      Работаем с проектами любого уровня.
+    </p>
+  </div>
+</div>
 
 <script>
-function scrollToSection(id){
-  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+function openPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
+
+/* КУРСОР */
+const cursor = document.querySelector('.cursor');
+
+document.addEventListener('mousemove', e=>{
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+});
 </script>
 
 </body>
