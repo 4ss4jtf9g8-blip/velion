@@ -9,48 +9,68 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
+
 body{
   font-family:'Inter',sans-serif;
-  background:#000;
+  background:#0b0b0b;
   color:#fff;
-  overflow-x:hidden;
 }
 
-/* VIDEO BACKGROUND */
-.hero{
-  position:relative;
-  height:100vh;
+/* HEADER */
+header{
   display:flex;
-  align-items:center;
-  padding:60px;
+  justify-content:space-between;
+  padding:30px;
 }
-.hero video{
-  position:absolute;
-  top:0;left:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  z-index:-1;
-  filter:brightness(0.4);
+.logo{font-weight:600}
+nav a{
+  margin-left:25px;
+  color:#888;
+  cursor:pointer;
 }
+nav a:hover{color:#fff}
 
-.hero-content{
-  max-width:700px;
-  animation:fadeUp 1s ease;
-}
+/* PAGES */
+.page{display:none;padding:40px;animation:fade .6s}
+.page.active{display:block}
 
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(40px)}
+@keyframes fade{
+  from{opacity:0;transform:translateY(20px)}
   to{opacity:1}
 }
 
+/* HERO */
+.hero{
+  height:90vh;
+  display:flex;
+  align-items:center;
+  position:relative;
+}
+
+.hero-bg{
+  position:absolute;
+  width:600px;
+  height:600px;
+  background: radial-gradient(circle,#4f46e5,transparent 70%);
+  filter: blur(120px);
+  top:20%;
+  left:30%;
+  z-index:-1;
+  animation:move 8s infinite alternate;
+}
+
+@keyframes move{
+  from{transform:translate(-50px,-50px)}
+  to{transform:translate(50px,50px)}
+}
+
 .hero h1{
-  font-size:70px;
+  font-size:64px;
   line-height:1.1;
 }
 .hero p{
   margin-top:20px;
-  color:#ccc;
+  color:#aaa;
 }
 
 /* BUTTON */
@@ -60,78 +80,57 @@ body{
   padding:14px 30px;
   background:linear-gradient(135deg,#4f46e5,#06b6d4);
   border-radius:12px;
-  text-decoration:none;
   color:#fff;
-  transition:.4s;
+  text-decoration:none;
+  transition:.3s;
 }
 .btn:hover{
   transform:translateY(-5px);
-  box-shadow:0 20px 60px rgba(6,182,212,0.6);
+  box-shadow:0 20px 50px rgba(6,182,212,0.5);
 }
 
-/* NAV */
-header{
-  position:fixed;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  padding:25px 40px;
-  z-index:10;
-}
-nav a{
-  margin-left:25px;
-  color:#aaa;
-  cursor:pointer;
-}
-nav a:hover{color:#fff}
-
-/* SECTION */
-.section{
-  padding:120px 40px;
-}
+/* SECTIONS */
+.section{margin-top:120px}
+h2{margin-bottom:30px}
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
 }
 
 /* CARD */
 .card{
-  position:relative;
-  overflow:hidden;
-  border-radius:16px;
-  height:220px;
-  cursor:pointer;
+  background:#111;
+  padding:25px;
+  border-radius:14px;
+  transition:.4s;
 }
-.card img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  transition:.6s;
-}
-.card:hover img{
-  transform:scale(1.1);
-}
-.card .overlay{
-  position:absolute;
-  bottom:0;
-  padding:20px;
-  background:linear-gradient(transparent,rgba(0,0,0,0.8));
-  width:100%;
+.card:hover{
+  transform:translateY(-10px) scale(1.03);
 }
 
-/* PARALLAX */
-.parallax{
-  transform:translateY(0);
-  transition:transform 0.2s;
+/* CASES */
+.case img{
+  width:100%;
+  border-radius:12px;
+  margin-bottom:15px;
 }
 
-/* CONTACT */
-.contact{
-  font-size:18px;
-  color:#ccc;
+/* STATS */
+.stats{
+  display:flex;
+  gap:40px;
+  margin-top:40px;
+}
+.stat{
+  font-size:26px;
+}
+.stat span{
+  display:block;
+  font-size:14px;
+  color:#aaa;
 }
 </style>
 </head>
@@ -139,72 +138,80 @@ nav a:hover{color:#fff}
 <body>
 
 <header>
-  <div>Velion</div>
+  <div class="logo">Velion</div>
   <nav>
-    <a onclick="scrollToSection('portfolio')">Портфолио</a>
-    <a onclick="scrollToSection('contact')">Контакты</a>
+    <a onclick="openPage('home')">Главная</a>
+    <a onclick="openPage('portfolio')">Портфолио</a>
+    <a onclick="openPage('contact')">Контакты</a>
   </nav>
 </header>
 
-<!-- HERO VIDEO -->
-<div class="hero">
-  <video autoplay muted loop>
-    <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
-  </video>
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="hero">
+    <div class="hero-bg"></div>
 
-  <div class="hero-content">
-    <h1>Дизайн нового уровня</h1>
-    <p>Мы создаём сайты, которые выглядят как продукт за $10,000+</p>
-    <a class="btn" onclick="scrollToSection('portfolio')">Смотреть кейсы</a>
+    <div>
+      <h1>Дизайн, который<br>выглядит дорого</h1>
+      <p>Создаём сайты уровня топ-студий</p>
+      <a class="btn" onclick="openPage('portfolio')">Смотреть кейсы</a>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat">50+<span>проектов</span></div>
+    <div class="stat">3 года<span>опыта</span></div>
+    <div class="stat">+120%<span>рост</span></div>
+  </div>
+
+  <div class="section">
+    <h2>Услуги</h2>
+    <div class="grid">
+      <div class="card">🔥 Лендинги</div>
+      <div class="card">🛒 Магазины</div>
+      <div class="card">🎨 Дизайн</div>
+      <div class="card">🚀 Продвижение</div>
+    </div>
   </div>
 </div>
 
 <!-- PORTFOLIO -->
-<div id="portfolio" class="section">
+<div id="portfolio" class="page">
   <h2>Кейсы</h2>
 
   <div class="grid">
-    <div class="card parallax">
-      <img src="https://picsum.photos/500/300?1">
-      <div class="overlay">Luxury Brand</div>
+    <div class="card case">
+      <img src="https://picsum.photos/400/250?1">
+      <strong>Luxury Brand</strong>
+      <p>Премиальный сайт</p>
     </div>
 
-    <div class="card parallax">
-      <img src="https://picsum.photos/500/300?2">
-      <div class="overlay">E-commerce</div>
+    <div class="card case">
+      <img src="https://picsum.photos/400/250?2">
+      <strong>E-commerce</strong>
+      <p>Интернет-магазин</p>
     </div>
 
-    <div class="card parallax">
-      <img src="https://picsum.photos/500/300?3">
-      <div class="overlay">Startup Website</div>
+    <div class="card case">
+      <img src="https://picsum.photos/400/250?3">
+      <strong>Startup</strong>
+      <p>Современный лендинг</p>
     </div>
   </div>
 </div>
 
 <!-- CONTACT -->
-<div id="contact" class="section">
+<div id="contact" class="page">
   <h2>Контакты</h2>
-  <div class="contact">
-    <p>Email: velion.agency@gmail.com</p>
-    <p>Telegram: @ChatGPT velion_agency</p>
-  </div>
+  <p>Email: velion.agency@gmail.com</p>
+  <p>Telegram: @ChatGPT velion_agency</p>
 </div>
 
 <script>
-// плавный скролл
-function scrollToSection(id){
-  document.getElementById(id).scrollIntoView({behavior:"smooth"});
+function openPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
-
-// параллакс от мыши
-document.addEventListener("mousemove", e=>{
-  let x=(e.clientX/window.innerWidth-0.5)*20;
-  let y=(e.clientY/window.innerHeight-0.5)*20;
-
-  document.querySelectorAll(".parallax").forEach(el=>{
-    el.style.transform=`translate(${x}px,${y}px)`;
-  });
-});
 </script>
 
 </body>
