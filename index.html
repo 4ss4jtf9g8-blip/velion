@@ -9,7 +9,6 @@
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-
 body{
   font-family:'Inter',sans-serif;
   background:#0b0b0b;
@@ -26,27 +25,22 @@ header{
 nav a{
   margin-left:25px;
   color:#888;
-  text-decoration:none;
   cursor:pointer;
 }
 nav a:hover{color:#fff}
 
 /* страницы */
-.page{
-  display:none;
-  padding:40px;
-  animation:fade .6s;
-}
+.page{display:none;padding:40px;animation:fade .6s}
 .page.active{display:block}
 
 @keyframes fade{
   from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:translateY(0)}
+  to{opacity:1}
 }
 
 /* hero */
-.hero h1{font-size:60px}
-.hero p{color:#aaa;margin-top:15px}
+.hero h1{font-size:64px;line-height:1.1}
+.hero p{color:#aaa;margin-top:20px;font-size:18px}
 
 /* кнопка */
 .btn{
@@ -60,16 +54,19 @@ nav a:hover{color:#fff}
   transition:.3s;
 }
 .btn:hover{
-  transform:translateY(-5px) scale(1.05);
+  transform:translateY(-5px);
   box-shadow:0 20px 50px rgba(6,182,212,0.5);
 }
+
+/* блоки */
+.section{margin-top:120px}
+h2{margin-bottom:30px;font-size:28px}
 
 /* grid */
 .grid{
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
   gap:25px;
-  margin-top:40px;
 }
 
 /* карточки */
@@ -80,25 +77,27 @@ nav a:hover{color:#fff}
   transition:.4s;
   position:relative;
 }
-
-/* glow */
-.card::before{
-  content:"";
-  position:absolute;
-  width:200%;
-  height:200%;
-  background: radial-gradient(circle,rgba(79,70,229,0.2),transparent 60%);
-  top:-50%;
-  left:-50%;
-  opacity:0;
-  transition:.5s;
-}
-.card:hover::before{opacity:1}
-
 .card:hover{
   transform:translateY(-10px) scale(1.03);
 }
 
+/* метрики */
+.stats{
+  display:flex;
+  gap:40px;
+  margin-top:40px;
+}
+.stat{
+  font-size:28px;
+  font-weight:600;
+}
+.stat span{
+  display:block;
+  font-size:14px;
+  color:#aaa;
+}
+
+/* отзывы */
 .review{color:#ddd}
 </style>
 </head>
@@ -118,9 +117,25 @@ nav a:hover{color:#fff}
 <!-- ГЛАВНАЯ -->
 <div id="home" class="page active">
   <div class="hero">
-    <h1>Сайты, которые выглядят<br>на $10,000+</h1>
-    <p>Создаём премиальные digital-продукты</p>
+    <h1>Создаём сайты,<br>которые продают</h1>
+    <p>Velion — digital-агентство, делающее премиальные сайты, брендинг и UX</p>
     <a class="btn" onclick="openPage('contact')">Обсудить проект</a>
+  </div>
+
+  <div class="stats">
+    <div class="stat">50+<span>проектов</span></div>
+    <div class="stat">3 года<span>опыта</span></div>
+    <div class="stat">+120%<span>рост конверсии</span></div>
+  </div>
+
+  <div class="section">
+    <h2>Услуги</h2>
+    <div class="grid">
+      <div class="card">🔥 Лендинги под ключ</div>
+      <div class="card">🛒 Интернет-магазины</div>
+      <div class="card">🎨 UI/UX дизайн</div>
+      <div class="card">🚀 Продвижение</div>
+    </div>
   </div>
 </div>
 
@@ -128,9 +143,18 @@ nav a:hover{color:#fff}
 <div id="portfolio" class="page">
   <h2>Портфолио</h2>
   <div class="grid">
-    <div class="card">Luxury Landing</div>
-    <div class="card">E-commerce</div>
-    <div class="card">Corporate Website</div>
+    <div class="card">
+      <strong>Luxury Landing</strong>
+      <p>Премиальный сайт для бренда одежды</p>
+    </div>
+    <div class="card">
+      <strong>E-commerce</strong>
+      <p>Интернет-магазин с высокой конверсией</p>
+    </div>
+    <div class="card">
+      <strong>Corporate</strong>
+      <p>Сайт компании с современным дизайном</p>
+    </div>
   </div>
 </div>
 
@@ -138,9 +162,9 @@ nav a:hover{color:#fff}
 <div id="reviews" class="page">
   <h2>Отзывы</h2>
   <div class="grid">
-    <div class="card review">“Выглядит очень дорого”</div>
-    <div class="card review">“Конверсия выросла”</div>
-    <div class="card review">“Лучшее агентство”</div>
+    <div class="card review">“Сайт выглядит на 20к$ минимум”</div>
+    <div class="card review">“Продажи выросли почти в 2 раза”</div>
+    <div class="card review">“Очень сильная команда”</div>
   </div>
 </div>
 
