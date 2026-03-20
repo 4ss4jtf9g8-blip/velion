@@ -14,50 +14,48 @@ body{
   font-family:'Inter',sans-serif;
   background:#0a0a0a;
   color:#fff;
-  cursor:none;
-}
-
-/* КАСТОМНЫЙ КУРСОР */
-.cursor{
-  width:20px;
-  height:20px;
-  border:2px solid #fff;
-  border-radius:50%;
-  position:fixed;
-  pointer-events:none;
-  transform:translate(-50%,-50%);
-  transition:transform .1s;
-  z-index:999;
+  overflow-x:hidden;
 }
 
 /* HEADER */
 header{
+  position:fixed;
+  width:100%;
   display:flex;
   justify-content:space-between;
-  padding:30px 50px;
-}
-nav a{
-  margin-left:25px;
-  color:#777;
-  cursor:pointer;
-}
-nav a:hover{color:#fff}
-
-/* СТРАНИЦЫ */
-.page{display:none;padding:50px;animation:fade .6s}
-.page.active{display:block}
-
-@keyframes fade{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1}
+  padding:25px 50px;
+  background:rgba(0,0,0,0.4);
+  backdrop-filter:blur(10px);
+  z-index:10;
 }
 
 /* HERO */
 .hero{
-  height:80vh;
+  height:100vh;
   display:flex;
   align-items:center;
+  padding:0 60px;
+  position:relative;
 }
+
+/* ФИОЛЕТОВАЯ СФЕРА */
+.sphere{
+  position:absolute;
+  width:500px;
+  height:500px;
+  background: radial-gradient(circle,#6d28d9,#4f46e5,transparent);
+  filter:blur(120px);
+  top:20%;
+  left:30%;
+  animation:float 8s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%{transform:translate(0,0)}
+  50%{transform:translate(60px,-40px)}
+  100%{transform:translate(0,0)}
+}
+
 .hero h1{
   font-size:72px;
 }
@@ -66,10 +64,10 @@ nav a:hover{color:#fff}
   color:#aaa;
 }
 
-/* КНОПКА */
+/* BUTTON */
 .btn{
-  margin-top:25px;
   display:inline-block;
+  margin-top:25px;
   padding:14px 30px;
   background:#fff;
   color:#000;
@@ -77,171 +75,142 @@ nav a:hover{color:#fff}
   text-decoration:none;
 }
 
-/* СЕКЦИИ */
-.section{margin-top:120px}
-h2{margin-bottom:25px}
+/* SECTION */
+.section{
+  padding:120px 60px;
+}
+
+h2{
+  margin-bottom:40px;
+}
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
   gap:30px;
 }
 
-/* CARD */
-.card{
-  background:#111;
-  padding:25px;
-  border-radius:14px;
-  transition:.3s;
-}
-.card:hover{
-  transform:translateY(-10px);
-}
-
 /* CASE */
+.case{
+  border-radius:16px;
+  overflow:hidden;
+}
 .case img{
   width:100%;
-  border-radius:12px;
-  margin-bottom:10px;
+  height:220px;
+  object-fit:cover;
+  transition:.5s;
+}
+.case:hover img{
+  transform:scale(1.1);
 }
 
-/* СТАТЫ */
-.stats{
-  display:flex;
-  gap:50px;
-  margin-top:40px;
+/* ОТЗЫВЫ ЧАТ */
+.chat{
+  max-width:600px;
 }
-.stat{
-  font-size:28px;
+.msg{
+  background:#111;
+  padding:15px 20px;
+  border-radius:14px;
+  margin-bottom:15px;
 }
-.stat span{
+.msg span{
   display:block;
-  font-size:14px;
+  font-size:12px;
   color:#777;
+  margin-top:5px;
+}
+
+/* CONTACT */
+a{
+  color:#fff;
+  text-decoration:none;
+  border-bottom:1px solid #555;
 }
 </style>
 </head>
 
 <body>
 
-<div class="cursor"></div>
-
 <header>
   <div>Velion</div>
-  <nav>
-    <a onclick="openPage('home')">Главная</a>
-    <a onclick="openPage('portfolio')">Портфолио</a>
-    <a onclick="openPage('contact')">Контакты</a>
-  </nav>
+  <div>menu</div>
 </header>
 
-<!-- HOME -->
-<div id="home" class="page active">
-  <div class="hero">
-    <div>
-      <h1>Digital‑агентство<br>нового уровня</h1>
-      <p>Создаём сайты, которые выглядят дорого и продают</p>
-      <a class="btn" onclick="openPage('portfolio')">Смотреть кейсы</a>
-    </div>
-  </div>
+<!-- HERO -->
+<section class="hero">
+  <div class="sphere"></div>
 
-  <div class="stats">
-    <div class="stat">50+<span>проектов</span></div>
-    <div class="stat">3 года<span>опыта</span></div>
-    <div class="stat">+120%<span>рост</span></div>
+  <div>
+    <h1>Создаём сайты,<br>которые продают</h1>
+    <p>Премиальный дизайн и разработка</p>
+    <a class="btn" href="#portfolio">Смотреть кейсы</a>
   </div>
-
-  <div class="section">
-    <h2>Услуги</h2>
-    <div class="grid">
-      <div class="card">🔥 Лендинги под ключ</div>
-      <div class="card">🛒 Интернет-магазины</div>
-      <div class="card">🎨 UI/UX дизайн</div>
-      <div class="card">🚀 Продвижение</div>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Почему мы</h2>
-    <div class="grid">
-      <div class="card">⚡ Быстро и качественно</div>
-      <div class="card">💎 Премиум дизайн</div>
-      <div class="card">📈 Ориентир на результат</div>
-    </div>
-  </div>
-</div>
+</section>
 
 <!-- PORTFOLIO -->
-<div id="portfolio" class="page">
+<section id="portfolio" class="section">
   <h2>Кейсы</h2>
 
   <div class="grid">
-    <div class="card case">
-      <img src="https://picsum.photos/400/250?1">
-      <strong>Luxury Brand</strong>
-      <p>Премиальный сайт</p>
+    <div class="case">
+      <img src="https://images.unsplash.com/photo-1547658719-da2b51169166">
     </div>
 
-    <div class="card case">
-      <img src="https://picsum.photos/400/250?2">
-      <strong>E-commerce</strong>
-      <p>Рост продаж</p>
+    <div class="case">
+      <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d">
     </div>
 
-    <div class="card case">
-      <img src="https://picsum.photos/400/250?3">
-      <strong>Startup</strong>
-      <p>Современный лендинг</p>
+    <div class="case">
+      <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7">
     </div>
   </div>
+</section>
 
-  <div class="section">
-    <h2>Отзывы</h2>
-    <div class="grid">
-      <div class="card">“Лучший дизайн что видел”</div>
-      <div class="card">“Продажи выросли”</div>
-      <div class="card">“Очень сильная команда”</div>
+<!-- ОТЗЫВЫ -->
+<section class="section">
+  <h2>Отзывы</h2>
+
+  <div class="chat">
+    <div class="msg">
+      Очень сильный дизайн, выглядит дорого
+      <span>Иван • 5 минут назад</span>
+    </div>
+
+    <div class="msg">
+      После редизайна продажи выросли
+      <span>Алексей • 12 минут назад</span>
+    </div>
+
+    <div class="msg">
+      Лучшее агентство с которым работал
+      <span>Мария • 1 час назад</span>
     </div>
   </div>
-</div>
+</section>
 
 <!-- CONTACT -->
-<div id="contact" class="page">
+<section class="section">
   <h2>Контакты</h2>
 
   <p>Email: velion.agency@gmail.com</p>
 
   <p>
     Telegram:
-    <a href="https://t.me/velion_agency" target="_blank" style="color:#fff;">
-      t.me/velion_agency
+    <a href="https://t.me/m/TYhoXAWyZGVi" target="_blank">
+      написать
     </a>
   </p>
 
-  <div class="section">
-    <h2>Связаться с нами</h2>
-    <p style="color:#aaa;max-width:400px">
-      Напишите нам в Telegram и мы ответим в течение 10 минут.
-      Работаем с проектами любого уровня.
-    </p>
-  </div>
-</div>
-
-<script>
-function openPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-/* КУРСОР */
-const cursor = document.querySelector('.cursor');
-
-document.addEventListener('mousemove', e=>{
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-});
-</script>
+  <p>
+    Наши соцсети:
+    <a href="https://t.me/velion_agency" target="_blank">
+      Velion
+    </a>
+  </p>
+</section>
 
 </body>
 </html>
