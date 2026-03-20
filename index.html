@@ -31,37 +31,32 @@ nav a{
 nav a:hover{color:#fff}
 
 /* PAGES */
-.page{display:none;padding:40px;animation:fade .6s}
+.page{display:none;padding:40px}
 .page.active{display:block}
-
-@keyframes fade{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1}
-}
 
 /* HERO */
 .hero{
-  height:90vh;
+  height:100vh;
   display:flex;
   align-items:center;
   position:relative;
+  overflow:hidden;
 }
 
-.hero-bg{
+.hero-gif{
   position:absolute;
-  width:600px;
-  height:600px;
-  background: radial-gradient(circle,#4f46e5,transparent 70%);
-  filter: blur(120px);
-  top:20%;
-  left:30%;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  top:0;
+  left:0;
   z-index:-1;
-  animation:move 8s infinite alternate;
+  filter:brightness(0.3);
 }
 
-@keyframes move{
-  from{transform:translate(-50px,-50px)}
-  to{transform:translate(50px,50px)}
+.hero-content{
+  position:relative;
+  z-index:2;
 }
 
 .hero h1{
@@ -70,7 +65,7 @@ nav a:hover{color:#fff}
 }
 .hero p{
   margin-top:20px;
-  color:#aaa;
+  color:#ccc;
 }
 
 /* BUTTON */
@@ -149,9 +144,11 @@ h2{margin-bottom:30px}
 <!-- HOME -->
 <div id="home" class="page active">
   <div class="hero">
-    <div class="hero-bg"></div>
 
-    <div>
+    <!-- GIF ФОН -->
+    <img class="hero-gif" src="https://www.pinterest.com/pin/499195939917097308/">
+
+    <div class="hero-content">
       <h1>Дизайн, который<br>выглядит дорого</h1>
       <p>Создаём сайты уровня топ-студий</p>
       <a class="btn" onclick="openPage('portfolio')">Смотреть кейсы</a>
