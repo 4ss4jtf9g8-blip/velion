@@ -11,185 +11,198 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:'Inter',sans-serif;
-  background:#0b0b0b;
+  background:#000;
   color:#fff;
+  overflow-x:hidden;
 }
 
-/* header */
-header{
+/* VIDEO BACKGROUND */
+.hero{
+  position:relative;
+  height:100vh;
   display:flex;
-  justify-content:space-between;
-  padding:30px;
+  align-items:center;
+  padding:60px;
 }
-.logo{font-weight:600}
-nav a{
-  margin-left:25px;
-  color:#888;
-  cursor:pointer;
+.hero video{
+  position:absolute;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  z-index:-1;
+  filter:brightness(0.4);
 }
-nav a:hover{color:#fff}
 
-/* страницы */
-.page{display:none;padding:40px;animation:fade .6s}
-.page.active{display:block}
+.hero-content{
+  max-width:700px;
+  animation:fadeUp 1s ease;
+}
 
-@keyframes fade{
-  from{opacity:0;transform:translateY(20px)}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(40px)}
   to{opacity:1}
 }
 
-/* hero */
-.hero h1{font-size:64px;line-height:1.1}
-.hero p{color:#aaa;margin-top:20px;font-size:18px}
+.hero h1{
+  font-size:70px;
+  line-height:1.1;
+}
+.hero p{
+  margin-top:20px;
+  color:#ccc;
+}
 
-/* кнопка */
+/* BUTTON */
 .btn{
   display:inline-block;
   margin-top:25px;
   padding:14px 30px;
   background:linear-gradient(135deg,#4f46e5,#06b6d4);
   border-radius:12px;
-  color:#fff;
   text-decoration:none;
-  transition:.3s;
+  color:#fff;
+  transition:.4s;
 }
 .btn:hover{
   transform:translateY(-5px);
-  box-shadow:0 20px 50px rgba(6,182,212,0.5);
+  box-shadow:0 20px 60px rgba(6,182,212,0.6);
 }
 
-/* блоки */
-.section{margin-top:120px}
-h2{margin-bottom:30px;font-size:28px}
+/* NAV */
+header{
+  position:fixed;
+  width:100%;
+  display:flex;
+  justify-content:space-between;
+  padding:25px 40px;
+  z-index:10;
+}
+nav a{
+  margin-left:25px;
+  color:#aaa;
+  cursor:pointer;
+}
+nav a:hover{color:#fff}
 
-/* grid */
+/* SECTION */
+.section{
+  padding:120px 40px;
+}
+
+/* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:30px;
 }
 
-/* карточки */
+/* CARD */
 .card{
-  background:#111;
-  padding:25px;
-  border-radius:14px;
-  transition:.4s;
   position:relative;
+  overflow:hidden;
+  border-radius:16px;
+  height:220px;
+  cursor:pointer;
 }
-.card:hover{
-  transform:translateY(-10px) scale(1.03);
+.card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition:.6s;
+}
+.card:hover img{
+  transform:scale(1.1);
+}
+.card .overlay{
+  position:absolute;
+  bottom:0;
+  padding:20px;
+  background:linear-gradient(transparent,rgba(0,0,0,0.8));
+  width:100%;
 }
 
-/* метрики */
-.stats{
-  display:flex;
-  gap:40px;
-  margin-top:40px;
-}
-.stat{
-  font-size:28px;
-  font-weight:600;
-}
-.stat span{
-  display:block;
-  font-size:14px;
-  color:#aaa;
+/* PARALLAX */
+.parallax{
+  transform:translateY(0);
+  transition:transform 0.2s;
 }
 
-/* отзывы */
-.review{color:#ddd}
+/* CONTACT */
+.contact{
+  font-size:18px;
+  color:#ccc;
+}
 </style>
 </head>
 
 <body>
 
 <header>
-  <div class="logo">Velion</div>
+  <div>Velion</div>
   <nav>
-    <a onclick="openPage('home')">Главная</a>
-    <a onclick="openPage('portfolio')">Портфолио</a>
-    <a onclick="openPage('reviews')">Отзывы</a>
-    <a onclick="openPage('contact')">Контакты</a>
+    <a onclick="scrollToSection('portfolio')">Портфолио</a>
+    <a onclick="scrollToSection('contact')">Контакты</a>
   </nav>
 </header>
 
-<!-- ГЛАВНАЯ -->
-<div id="home" class="page active">
-  <div class="hero">
-    <h1>Создаём сайты,<br>которые продают</h1>
-    <p>Velion — digital-агентство, делающее премиальные сайты, брендинг и UX</p>
-    <a class="btn" onclick="openPage('contact')">Обсудить проект</a>
-  </div>
+<!-- HERO VIDEO -->
+<div class="hero">
+  <video autoplay muted loop>
+    <source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
+  </video>
 
-  <div class="stats">
-    <div class="stat">50+<span>проектов</span></div>
-    <div class="stat">3 года<span>опыта</span></div>
-    <div class="stat">+120%<span>рост конверсии</span></div>
-  </div>
-
-  <div class="section">
-    <h2>Услуги</h2>
-    <div class="grid">
-      <div class="card">🔥 Лендинги под ключ</div>
-      <div class="card">🛒 Интернет-магазины</div>
-      <div class="card">🎨 UI/UX дизайн</div>
-      <div class="card">🚀 Продвижение</div>
-    </div>
+  <div class="hero-content">
+    <h1>Дизайн нового уровня</h1>
+    <p>Мы создаём сайты, которые выглядят как продукт за $10,000+</p>
+    <a class="btn" onclick="scrollToSection('portfolio')">Смотреть кейсы</a>
   </div>
 </div>
 
-<!-- ПОРТФОЛИО -->
-<div id="portfolio" class="page">
-  <h2>Портфолио</h2>
+<!-- PORTFOLIO -->
+<div id="portfolio" class="section">
+  <h2>Кейсы</h2>
+
   <div class="grid">
-    <div class="card">
-      <strong>Luxury Landing</strong>
-      <p>Премиальный сайт для бренда одежды</p>
+    <div class="card parallax">
+      <img src="https://picsum.photos/500/300?1">
+      <div class="overlay">Luxury Brand</div>
     </div>
-    <div class="card">
-      <strong>E-commerce</strong>
-      <p>Интернет-магазин с высокой конверсией</p>
+
+    <div class="card parallax">
+      <img src="https://picsum.photos/500/300?2">
+      <div class="overlay">E-commerce</div>
     </div>
-    <div class="card">
-      <strong>Corporate</strong>
-      <p>Сайт компании с современным дизайном</p>
+
+    <div class="card parallax">
+      <img src="https://picsum.photos/500/300?3">
+      <div class="overlay">Startup Website</div>
     </div>
   </div>
 </div>
 
-<!-- ОТЗЫВЫ -->
-<div id="reviews" class="page">
-  <h2>Отзывы</h2>
-  <div class="grid">
-    <div class="card review">“Сайт выглядит на 20к$ минимум”</div>
-    <div class="card review">“Продажи выросли почти в 2 раза”</div>
-    <div class="card review">“Очень сильная команда”</div>
-  </div>
-</div>
-
-<!-- КОНТАКТЫ -->
-<div id="contact" class="page">
+<!-- CONTACT -->
+<div id="contact" class="section">
   <h2>Контакты</h2>
-  <p>Email: velion.agency@gmail.com</p>
-  <p>Telegram: @ChatGPT velion_agency</p>
+  <div class="contact">
+    <p>Email: velion.agency@gmail.com</p>
+    <p>Telegram: @ChatGPT velion_agency</p>
+  </div>
 </div>
 
 <script>
-function openPage(id){
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+// плавный скролл
+function scrollToSection(id){
+  document.getElementById(id).scrollIntoView({behavior:"smooth"});
 }
 
-/* 3D эффект */
-document.querySelectorAll(".card").forEach(el=>{
-  el.addEventListener("mousemove", e=>{
-    let x=(e.offsetX/el.offsetWidth-0.5)*10;
-    let y=(e.offsetY/el.offsetHeight-0.5)*10;
-    el.style.transform=`rotateY(${x}deg) rotateX(${-y}deg)`;
-  });
-  el.addEventListener("mouseleave", ()=>{
-    el.style.transform="";
+// параллакс от мыши
+document.addEventListener("mousemove", e=>{
+  let x=(e.clientX/window.innerWidth-0.5)*20;
+  let y=(e.clientY/window.innerHeight-0.5)*20;
+
+  document.querySelectorAll(".parallax").forEach(el=>{
+    el.style.transform=`translate(${x}px,${y}px)`;
   });
 });
 </script>
