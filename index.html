@@ -1,317 +1,389 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Velion</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Velion — Product / UI/UX Designer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0f0f12;
+      --bg-card: #16161b;
+      --text: #e0e0e5;
+      --text-light: #a0a0b0;
+      --accent: #7c3aed;
+      --accent-dark: #5b21b6;
+      --gradient: linear-gradient(135deg, #6b21a8, #7c3aed, #a78bfa);
+    }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
 
-html{scroll-behavior:smooth;}
+    ::selection {
+      background: var(--accent);
+      color: white;
+    }
 
-body{
-  font-family:'Inter',sans-serif;
-  background:#0a0a0a;
-  color:#fff;
-  cursor:none;
-}
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 5vw;
+    }
 
-/* CURSOR */
-.cursor{
-  width:18px;
-  height:18px;
-  border:2px solid #fff;
-  border-radius:50%;
-  position:fixed;
-  pointer-events:none;
-  transform:translate(-50%,-50%);
-  transition:.1s;
-  z-index:999;
-}
+    /* Header / Hero */
+    header {
+      height: 100vh;
+      min-height: 780px;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* HEADER */
-header{
-  position:fixed;
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  padding:25px 50px;
-  backdrop-filter:blur(10px);
-  z-index:10;
-}
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(124,58,237,0.12) 0%, transparent 50%);
+      pointer-events: none;
+    }
 
-/* HERO */
-.hero{
-  height:100vh;
-  display:flex;
-  align-items:center;
-  padding:0 60px;
-  position:relative;
-}
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 780px;
+    }
 
-.sphere{
-  position:absolute;
-  width:500px;
-  height:500px;
-  background: radial-gradient(circle,#6d28d9,#4f46e5,transparent);
-  filter:blur(120px);
-  animation:float 8s infinite;
-}
+    .overline {
+      font-size: 1.1rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
 
-@keyframes float{
-  0%{transform:translate(0,0)}
-  50%{transform:translate(80px,-40px)}
-  100%{transform:translate(0,0)}
-}
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.8rem, 8vw, 9.5rem);
+      line-height: 0.92;
+      margin-bottom: 1.8rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-.hero h1{
-  font-size:70px;
-}
+    .hero-text {
+      font-size: 1.38rem;
+      color: var(--text-light);
+      max-width: 560px;
+      margin-bottom: 3rem;
+    }
 
-.hero p{
-  margin-top:20px;
-  color:#aaa;
-}
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 1rem 2.2rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 999px;
+      font-weight: 600;
+      font-size: 1.05rem;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      box-shadow: 0 10px 30px rgba(124,58,237,0.3);
+    }
 
-/* STATS */
-.stats{
-  display:flex;
-  gap:50px;
-  margin-top:30px;
-}
-.stat{
-  font-size:22px;
-  color:#ccc;
-}
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 50px rgba(124,58,237,0.45);
+      background: var(--accent-dark);
+    }
 
-/* SECTION */
-.section{
-  padding:120px 60px;
-  opacity:0;
-  transform:translateY(40px);
-  transition:1s;
-}
-.section.show{
-  opacity:1;
-  transform:translateY(0);
-}
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--accent);
+      color: var(--accent);
+      box-shadow: none;
+    }
 
-h2{margin-bottom:40px}
+    .btn-outline:hover {
+      background: rgba(124,58,237,0.08);
+      color: white;
+    }
 
-/* GRID */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:30px;
-}
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      padding: 2rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      backdrop-filter: blur(12px);
+      background: rgba(15,15,18,0.65);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
 
-/* CASE */
-.case{
-  cursor:pointer;
-}
-.case img{
-  width:100%;
-  border-radius:14px;
-  transition:.5s;
-}
-.case:hover img{
-  transform:scale(1.05);
-}
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-/* CHAT REVIEWS */
-.chat{
-  max-width:600px;
-}
-.msg{
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
-}
-.avatar{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-}
-.bubble{
-  background:#111;
-  padding:12px 16px;
-  border-radius:12px;
-}
-.bubble span{
-  display:block;
-  font-size:12px;
-  color:#777;
-}
+    .nav-links a {
+      color: var(--text-light);
+      text-decoration: none;
+      margin-left: 2.8rem;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
 
-/* CASE PAGE */
-.case-page{
-  display:none;
-  padding:100px 60px;
-  animation:fade .6s;
-}
-.case-page.active{display:block;}
+    .nav-links a:hover {
+      color: white;
+    }
 
-@keyframes fade{
-  from{opacity:0}
-  to{opacity:1}
-}
+    /* Sections */
+    section {
+      padding: 14vh 0;
+    }
 
-/* TEXT ANIMATION */
-.letter span{
-  opacity:0;
-  display:inline-block;
-  animation:letter .5s forwards;
-}
-@keyframes letter{
-  to{opacity:1;transform:translateY(0)}
-}
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.2rem, 6vw, 6.8rem);
+      text-align: center;
+      margin-bottom: 5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
 
-/* LINKS */
-a{color:#fff;text-decoration:none;border-bottom:1px solid #555;}
-</style>
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 2.5rem;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 1.2rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.03);
+      transition: all 0.5s ease;
+      position: relative;
+    }
+
+    .card:hover {
+      transform: translateY(-12px);
+      border-color: var(--accent);
+      box-shadow: 0 30px 70px rgba(0,0,0,0.4);
+    }
+
+    .card img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: transform 0.7s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.08);
+    }
+
+    .card-content {
+      padding: 2rem 2.2rem 2.4rem;
+    }
+
+    .card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.4rem;
+    }
+
+    .tag {
+      background: rgba(124,58,237,0.12);
+      color: var(--accent);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Footer */
+    footer {
+      padding: 8rem 0 4rem;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+    .social-links a {
+      color: var(--text-light);
+      font-size: 1.8rem;
+      margin: 0 1.2rem;
+      transition: color 0.3s;
+    }
+
+    .social-links a:hover {
+      color: var(--accent);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        padding: 1.5rem 5vw;
+      }
+      .nav-links {
+        display: none; /* можно добавить бургер-меню позже */
+      }
+      h1 {
+        font-size: clamp(3.5rem, 10vw, 7rem);
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="cursor"></div>
-
-<header>
-  <div>Velion</div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="sphere"></div>
-
-  <div>
-    <h1>Создаём сайты,<br>которые продают</h1>
-    <p>Премиальный дизайн и разработка</p>
-
-    <div class="stats">
-      <div class="stat">+30% конверсии</div>
-      <div class="stat">50+ проектов</div>
-      <div class="stat">быстро и качественно</div>
+  <nav>
+    <div class="logo">Velion</div>
+    <div class="nav-links">
+      <a href="#portfolio">Работы</a>
+      <a href="#about">Обо мне</a>
+      <a href="#contact">Контакты</a>
     </div>
-  </div>
-</section>
+  </nav>
 
-<!-- SLOGAN -->
-<section class="section">
-  <h2>Мы делаем дизайн, которому доверяют</h2>
-</section>
-
-<!-- PORTFOLIO -->
-<section class="section">
-  <h2>Кейсы</h2>
-
-  <div class="grid">
-    <div class="case" onclick="openCase('case1')">
-      <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d">
-    </div>
-
-    <div class="case" onclick="openCase('case2')">
-      <img src="https://images.unsplash.com/photo-1547658719-da2b51169166">
-    </div>
-  </div>
-</section>
-
-<!-- REVIEWS -->
-<section class="section">
-  <h2>Отзывы</h2>
-
-  <div class="chat">
-    <div class="msg">
-      <img class="avatar" src="https://i.pravatar.cc/40?1">
-      <div class="bubble">
-        Очень сильный дизайн
-        <span>Иван • 5 мин назад</span>
+  <header id="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="overline">Product • UI/UX Designer</div>
+        <h1>Создаю цифровые продукты,<br>которыми хочется пользоваться</h1>
+        <p class="hero-text">
+          Более 5 лет опыта в дизайне интерфейсов, брендинге и создании удобных цифровых продуктов для стартапов и крупных компаний.
+        </p>
+        <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
+          <a href="#portfolio" class="btn">Смотреть проекты →</a>
+          <a href="mailto:hello@velion.studio" class="btn btn-outline">Написать мне</a>
+        </div>
       </div>
     </div>
+  </header>
 
-    <div class="msg">
-      <img class="avatar" src="https://i.pravatar.cc/40?2">
-      <div class="bubble">
-        Продажи выросли 🔥
-        <span>Алексей • 10 мин назад</span>
+  <section id="portfolio">
+    <div class="container">
+      <h2>Избранные проекты</h2>
+      <div class="grid">
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop" alt="Project 1">
+          <div class="card-content">
+            <h3>Nexlify — SaaS платформа</h3>
+            <p>Полный редизайн продукта, рост конверсии на 42%, новая дизайн-система.</p>
+            <div class="tags">
+              <span class="tag">UI/UX</span>
+              <span class="tag">SaaS</span>
+              <span class="tag">Figma</span>
+              <span class="tag">Webflow</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=900&auto=format&fit=crop" alt="Project 2">
+          <div class="card-content">
+            <h3>CryptoVault Wallet</h3>
+            <p>Мобильное приложение + веб-версия для хранения и торговли криптовалютой.</p>
+            <div class="tags">
+              <span class="tag">Mobile</span>
+              <span class="tag">Web3</span>
+              <span class="tag">Dark UI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop" alt="Project 3">
+          <div class="card-content">
+            <h3>Lumina — AI Fashion</h3>
+            <p>Генеративная платформа для создания одежды с помощью ИИ.</p>
+            <div class="tags">
+              <span class="tag">AI</span>
+              <span class="tag">E-commerce</span>
+              <span class="tag">Branding</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
+  </section>
 
-    <div class="msg">
-      <img class="avatar" src="https://i.pravatar.cc/40?3">
-      <div class="bubble">
-        Всё сделали быстро и красиво
-        <span>Мария • 1 час назад</span>
+  <section id="about" style="background: linear-gradient(to bottom, #0f0f12, #16161b);">
+    <div class="container">
+      <h2>Обо мне</h2>
+      <div style="max-width:720px; margin:0 auto; text-align:center; font-size:1.25rem; color:var(--text-light);">
+        <p style="margin-bottom:2rem;">
+          Меня зовут Velion. Я занимаюсь продуктовым и интерфейсным дизайном уже более 5 лет. 
+          Люблю чистые линии, продуманную типографику, микроанимации и тёмные темы.
+        </p>
+        <p>
+          Работаю с Figma, Framer, After Effects, Principle.  
+          Помогаю стартапам и компаниям создавать продукты, которыми приятно и удобно пользоваться каждый день.
+        </p>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT -->
-<section class="section">
-  <h2>Контакты</h2>
+  <footer id="contact">
+    <div class="container">
+      <h2 style="margin-bottom:3rem;">Давайте создадим что-то крутое вместе</h2>
+      
+      <div style="margin:3rem 0 5rem;">
+        <a href="mailto:hello@velion.studio" class="btn" style="font-size:1.4rem; padding:1.4rem 3.2rem;">
+          hello@velion.studio →
+        </a>
+      </div>
 
-  <p>Email: velion.agency@gmail.com</p>
+      <div class="social-links">
+        <a href="https://twitter.com/" target="_blank">𝕏</a>
+        <a href="https://dribbble.com/" target="_blank">Dribbble</a>
+        <a href="https://behance.net/" target="_blank">Behance</a>
+        <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
+      </div>
 
-  <p>
-    Написать:
-    <a href="https://t.me/m/TYhoXAWyZGVi" target="_blank">в Telegram</a>
-  </p>
-
-  <p>
-    Соцсети:
-    <a href="https://t.me/velion_agency" target="_blank">Velion</a>
-  </p>
-</section>
-
-<!-- CASE PAGES -->
-<div id="case1" class="case-page">
-  <h1 class="letter">Кейс: Интернет-магазин</h1>
-  <p>Переделали дизайн → конверсия выросла на 30%</p>
-</div>
-
-<div id="case2" class="case-page">
-  <h1 class="letter">Кейс: Лендинг</h1>
-  <p>Редизайн → рост заявок в 2 раза</p>
-</div>
-
-<script>
-// cursor
-const cursor=document.querySelector('.cursor');
-document.addEventListener('mousemove',e=>{
-  cursor.style.left=e.clientX+'px';
-  cursor.style.top=e.clientY+'px';
-});
-
-// scroll animation
-const sections=document.querySelectorAll('.section');
-window.addEventListener('scroll',()=>{
-  sections.forEach(sec=>{
-    if(sec.getBoundingClientRect().top<window.innerHeight-100){
-      sec.classList.add('show');
-    }
-  });
-});
-
-// open case
-function openCase(id){
-  document.querySelectorAll('.case-page').forEach(p=>p.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-
-  // текст по буквам
-  const el=document.getElementById(id).querySelector('h1');
-  const text=el.innerText;
-  el.innerHTML='';
-  text.split('').forEach((l,i)=>{
-    let span=document.createElement('span');
-    span.innerText=l;
-    span.style.animationDelay=i*0.05+'s';
-    el.appendChild(span);
-  });
-}
-</script>
+      <p style="margin-top:5rem; color:var(--text-light); font-size:0.95rem;">
+        © 2026 Velion. Все права защищены.
+      </p>
+    </div>
+  </footer>
 
 </body>
 </html>
