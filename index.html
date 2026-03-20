@@ -1,389 +1,248 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Velion — Product / UI/UX Designer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
-  
-  <style>
-    :root {
-      --bg: #0f0f12;
-      --bg-card: #16161b;
-      --text: #e0e0e5;
-      --text-light: #a0a0b0;
-      --accent: #7c3aed;
-      --accent-dark: #5b21b6;
-      --gradient: linear-gradient(135deg, #6b21a8, #7c3aed, #a78bfa);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<title>Velion — сайты, которые продают</title>
 
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Inter', system-ui, sans-serif;
-      line-height: 1.6;
-      min-height: 100vh;
-    }
+<meta name="description" content="Премиальные сайты с ростом конверсии до 70%">
+<meta property="og:title" content="Velion — сайты, которые продают">
+<meta property="og:description" content="+30–70% к конверсии за 21 день">
 
-    ::selection {
-      background: var(--accent);
-      color: white;
-    }
+<script src="https://cdn.tailwindcss.com"></script>
 
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 5vw;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-    /* Header / Hero */
-    header {
-      height: 100vh;
-      min-height: 780px;
-      display: flex;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
+<style>
+body{
+  font-family:'Inter',sans-serif;
+  background:#0A0A0A;
+  color:#fff;
+}
 
-    header::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 20% 80%, rgba(124,58,237,0.12) 0%, transparent 50%);
-      pointer-events: none;
-    }
+/* шум */
+body::before{
+  content:'';
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:url('https://grainy-gradients.vercel.app/noise.svg');
+  opacity:0.04;
+  pointer-events:none;
+}
 
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 780px;
-    }
+/* анимации */
+.fade{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s;
+}
+.fade.show{
+  opacity:1;
+  transform:translateY(0);
+}
 
-    .overline {
-      font-size: 1.1rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 1.5rem;
-      font-weight: 500;
-    }
+/* кнопка floating */
+.floating{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+}
+</style>
 
-    h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.8rem, 8vw, 9.5rem);
-      line-height: 0.92;
-      margin-bottom: 1.8rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-text {
-      font-size: 1.38rem;
-      color: var(--text-light);
-      max-width: 560px;
-      margin-bottom: 3rem;
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 1rem 2.2rem;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 999px;
-      font-weight: 600;
-      font-size: 1.05rem;
-      text-decoration: none;
-      transition: all 0.4s ease;
-      box-shadow: 0 10px 30px rgba(124,58,237,0.3);
-    }
-
-    .btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 50px rgba(124,58,237,0.45);
-      background: var(--accent-dark);
-    }
-
-    .btn-outline {
-      background: transparent;
-      border: 1.5px solid var(--accent);
-      color: var(--accent);
-      box-shadow: none;
-    }
-
-    .btn-outline:hover {
-      background: rgba(124,58,237,0.08);
-      color: white;
-    }
-
-    /* Nav */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      z-index: 100;
-      padding: 2rem 5vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      backdrop-filter: blur(12px);
-      background: rgba(15,15,18,0.65);
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-    }
-
-    .logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.1rem;
-      font-weight: 700;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .nav-links a {
-      color: var(--text-light);
-      text-decoration: none;
-      margin-left: 2.8rem;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    .nav-links a:hover {
-      color: white;
-    }
-
-    /* Sections */
-    section {
-      padding: 14vh 0;
-    }
-
-    h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.2rem, 6vw, 6.8rem);
-      text-align: center;
-      margin-bottom: 5rem;
-      background: var(--gradient);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-      gap: 2.5rem;
-    }
-
-    .card {
-      background: var(--bg-card);
-      border-radius: 1.2rem;
-      overflow: hidden;
-      border: 1px solid rgba(255,255,255,0.03);
-      transition: all 0.5s ease;
-      position: relative;
-    }
-
-    .card:hover {
-      transform: translateY(-12px);
-      border-color: var(--accent);
-      box-shadow: 0 30px 70px rgba(0,0,0,0.4);
-    }
-
-    .card img {
-      width: 100%;
-      height: 260px;
-      object-fit: cover;
-      transition: transform 0.7s ease;
-    }
-
-    .card:hover img {
-      transform: scale(1.08);
-    }
-
-    .card-content {
-      padding: 2rem 2.2rem 2.4rem;
-    }
-
-    .card h3 {
-      font-size: 1.6rem;
-      margin-bottom: 1rem;
-    }
-
-    .tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 1.4rem;
-    }
-
-    .tag {
-      background: rgba(124,58,237,0.12);
-      color: var(--accent);
-      padding: 0.5rem 1rem;
-      border-radius: 999px;
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    /* Footer */
-    footer {
-      padding: 8rem 0 4rem;
-      text-align: center;
-      border-top: 1px solid rgba(255,255,255,0.04);
-    }
-
-    .social-links a {
-      color: var(--text-light);
-      font-size: 1.8rem;
-      margin: 0 1.2rem;
-      transition: color 0.3s;
-    }
-
-    .social-links a:hover {
-      color: var(--accent);
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 1.5rem 5vw;
-      }
-      .nav-links {
-        display: none; /* можно добавить бургер-меню позже */
-      }
-      h1 {
-        font-size: clamp(3.5rem, 10vw, 7rem);
-      }
-    }
-  </style>
 </head>
+
 <body>
 
-  <nav>
-    <div class="logo">Velion</div>
-    <div class="nav-links">
-      <a href="#portfolio">Работы</a>
-      <a href="#about">Обо мне</a>
-      <a href="#contact">Контакты</a>
-    </div>
-  </nav>
+<!-- HEADER -->
+<header class="fixed w-full flex justify-between p-6 bg-black/40 backdrop-blur z-50">
+  <div class="font-bold">Velion</div>
+  <a href="#contact" class="text-[#00FF9F]">Контакты</a>
+</header>
 
-  <header id="hero">
-    <div class="container">
-      <div class="hero-content">
-        <div class="overline">Product • UI/UX Designer</div>
-        <h1>Создаю цифровые продукты,<br>которыми хочется пользоваться</h1>
-        <p class="hero-text">
-          Более 5 лет опыта в дизайне интерфейсов, брендинге и создании удобных цифровых продуктов для стартапов и крупных компаний.
-        </p>
-        <div style="display:flex; gap:1.5rem; flex-wrap:wrap;">
-          <a href="#portfolio" class="btn">Смотреть проекты →</a>
-          <a href="mailto:hello@velion.studio" class="btn btn-outline">Написать мне</a>
-        </div>
-      </div>
-    </div>
-  </header>
+<!-- HERO -->
+<section class="h-screen flex items-center px-6 md:px-20 relative">
 
-  <section id="portfolio">
-    <div class="container">
-      <h2>Избранные проекты</h2>
-      <div class="grid">
+<div class="absolute w-[500px] h-[500px] bg-[#00FF9F] blur-[140px] opacity-20 left-1/3 top-20 animate-pulse"></div>
 
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=900&auto=format&fit=crop" alt="Project 1">
-          <div class="card-content">
-            <h3>Nexlify — SaaS платформа</h3>
-            <p>Полный редизайн продукта, рост конверсии на 42%, новая дизайн-система.</p>
-            <div class="tags">
-              <span class="tag">UI/UX</span>
-              <span class="tag">SaaS</span>
-              <span class="tag">Figma</span>
-              <span class="tag">Webflow</span>
-            </div>
-          </div>
-        </div>
+<div class="max-w-xl z-10">
+<h1 class="text-5xl md:text-7xl font-extrabold">
+Сайты,<br>которые продают.
+</h1>
 
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=900&auto=format&fit=crop" alt="Project 2">
-          <div class="card-content">
-            <h3>CryptoVault Wallet</h3>
-            <p>Мобильное приложение + веб-версия для хранения и торговли криптовалютой.</p>
-            <div class="tags">
-              <span class="tag">Mobile</span>
-              <span class="tag">Web3</span>
-              <span class="tag">Dark UI</span>
-            </div>
-          </div>
-        </div>
+<p class="mt-6 text-gray-300">
+Премиальный дизайн → +30–70% к конверсии за 21 день
+</p>
 
-        <div class="card">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop" alt="Project 3">
-          <div class="card-content">
-            <h3>Lumina — AI Fashion</h3>
-            <p>Генеративная платформа для создания одежды с помощью ИИ.</p>
-            <div class="tags">
-              <span class="tag">AI</span>
-              <span class="tag">E-commerce</span>
-              <span class="tag">Branding</span>
-            </div>
-          </div>
-        </div>
+<div class="mt-8 flex gap-4">
+<a href="https://t.me/velion_agency"
+class="bg-[#00FF9F] text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition">
+Telegram
+</a>
 
-      </div>
-    </div>
-  </section>
+<a href="#cases"
+class="border border-gray-600 px-6 py-3 rounded-xl">
+Кейсы
+</a>
+</div>
+</div>
 
-  <section id="about" style="background: linear-gradient(to bottom, #0f0f12, #16161b);">
-    <div class="container">
-      <h2>Обо мне</h2>
-      <div style="max-width:720px; margin:0 auto; text-align:center; font-size:1.25rem; color:var(--text-light);">
-        <p style="margin-bottom:2rem;">
-          Меня зовут Velion. Я занимаюсь продуктовым и интерфейсным дизайном уже более 5 лет. 
-          Люблю чистые линии, продуманную типографику, микроанимации и тёмные темы.
-        </p>
-        <p>
-          Работаю с Figma, Framer, After Effects, Principle.  
-          Помогаю стартапам и компаниям создавать продукты, которыми приятно и удобно пользоваться каждый день.
-        </p>
-      </div>
-    </div>
-  </section>
+<div class="absolute right-10 text-6xl text-[#00FF9F] font-bold">
++30%
+</div>
 
-  <footer id="contact">
-    <div class="container">
-      <h2 style="margin-bottom:3rem;">Давайте создадим что-то крутое вместе</h2>
-      
-      <div style="margin:3rem 0 5rem;">
-        <a href="mailto:hello@velion.studio" class="btn" style="font-size:1.4rem; padding:1.4rem 3.2rem;">
-          hello@velion.studio →
-        </a>
-      </div>
+</section>
 
-      <div class="social-links">
-        <a href="https://twitter.com/" target="_blank">𝕏</a>
-        <a href="https://dribbble.com/" target="_blank">Dribbble</a>
-        <a href="https://behance.net/" target="_blank">Behance</a>
-        <a href="https://www.linkedin.com/" target="_blank">LinkedIn</a>
-      </div>
+<!-- ПРЕИМУЩЕСТВА -->
+<section class="grid md:grid-cols-4 gap-8 px-6 md:px-20 py-24">
 
-      <p style="margin-top:5rem; color:var(--text-light); font-size:0.95rem;">
-        © 2026 Velion. Все права защищены.
-      </p>
-    </div>
-  </footer>
+<div class="fade"><h3 class="text-3xl text-[#00FF9F]">+70%</h3><p class="text-gray-400">конверсии</p></div>
+<div class="fade"><h3 class="text-3xl text-[#00FF9F]">50+</h3><p class="text-gray-400">проектов</p></div>
+<div class="fade"><h3 class="text-3xl text-[#00FF9F]">14–25</h3><p class="text-gray-400">дней</p></div>
+<div class="fade"><h3 class="text-3xl text-[#00FF9F]">Premium</h3><p class="text-gray-400">дизайн</p></div>
+
+</section>
+
+<!-- СЛОГАН -->
+<section class="px-6 md:px-20 py-32">
+<h2 class="text-4xl md:text-5xl max-w-3xl fade">
+Мы создаём сайты, которые превращают трафик в прибыль.
+</h2>
+</section>
+
+<!-- УСЛУГИ -->
+<section class="px-6 md:px-20 py-24 grid md:grid-cols-3 gap-8">
+
+<div class="bg-[#111] p-6 rounded-2xl fade">
+<h3 class="text-xl font-bold">Разработка с нуля</h3>
+<p class="text-gray-400 mt-3">от 80 000 ₽</p>
+</div>
+
+<div class="bg-[#111] p-6 rounded-2xl fade">
+<h3 class="text-xl font-bold">Редизайн</h3>
+<p class="text-gray-400 mt-3">от 40 000 ₽</p>
+</div>
+
+<div class="bg-[#111] p-6 rounded-2xl fade">
+<h3 class="text-xl font-bold">Поддержка</h3>
+<p class="text-gray-400 mt-3">от 15 000 ₽</p>
+</div>
+
+</section>
+
+<!-- КЕЙСЫ -->
+<section id="cases" class="px-6 md:px-20 py-24">
+
+<h2 class="text-4xl mb-12">Реальные результаты</h2>
+
+<div class="grid md:grid-cols-3 gap-8">
+
+<div class="bg-[#111] p-6 rounded-2xl fade">
+<h3>Velvet Motors</h3>
+<p class="text-gray-400 mt-2">2.8% → 8.4%</p>
+<p class="text-[#00FF9F] text-2xl mt-3">+200%</p>
+</div>
+
+<div class="bg-[#111] p-6 rounded-2xl fade">
+<h3>LUNAR</h3>
+<p class="text-gray-400 mt-2">×3.4 выручка</p>
+<p class="text-[#00FF9F] text-2xl mt-3">+252%</p>
+</div>
+
+<div class="bg-[#111] p-6 rounded-2xl fade">
+<h3>White Pearl</h3>
+<p class="text-gray-400 mt-2">68 → 231</p>
+<p class="text-[#00FF9F] text-2xl mt-3">+200%</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- ОТЗЫВЫ -->
+<section class="px-6 md:px-20 py-24">
+
+<h2 class="text-4xl mb-10">Отзывы</h2>
+
+<div class="space-y-4 max-w-xl">
+
+<div class="bg-[#111] p-4 rounded-xl fade">
+🔥 Очень сильный дизайн <br>
+<span class="text-gray-400 text-sm">Иван • 5 мин назад</span>
+</div>
+
+<div class="bg-[#111] p-4 rounded-xl fade">
+Продажи выросли в 2 раза <br>
+<span class="text-gray-400 text-sm">Алексей • 10 мин назад</span>
+</div>
+
+<div class="bg-[#111] p-4 rounded-xl fade">
+Лучшее агентство <br>
+<span class="text-gray-400 text-sm">Мария • 1 час назад</span>
+</div>
+
+</div>
+
+</section>
+
+<!-- КАЛЬКУЛЯТОР -->
+<section class="px-6 md:px-20 py-24">
+
+<h2 class="text-4xl mb-6">Рассчитать стоимость</h2>
+
+<select id="service" class="bg-[#111] p-4 rounded-xl">
+<option value="80000">Сайт с нуля</option>
+<option value="40000">Редизайн</option>
+<option value="15000">Поддержка</option>
+</select>
+
+<p class="mt-4 text-[#00FF9F]" id="price">≈ 80 000 ₽</p>
+
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="px-6 md:px-20 py-24">
+
+<h2 class="text-4xl mb-6">Связаться</h2>
+
+<input placeholder="Имя" class="block w-full p-4 mb-3 bg-[#111] rounded-xl">
+<input placeholder="Телефон" class="block w-full p-4 mb-3 bg-[#111] rounded-xl">
+
+<a href="https://t.me/velion_agency"
+class="block text-center bg-[#00FF9F] text-black py-4 rounded-xl font-bold">
+Написать в Telegram
+</a>
+
+<p class="mt-4 text-gray-400">velion.agency@gmail.com</p>
+
+</section>
+
+<!-- FLOAT BUTTON -->
+<a href="https://t.me/velion_agency"
+class="floating bg-[#00FF9F] text-black px-5 py-3 rounded-full shadow-lg">
+✉
+</a>
+
+<script>
+// анимации
+const els=document.querySelectorAll('.fade');
+window.addEventListener('scroll',()=>{
+els.forEach(el=>{
+if(el.getBoundingClientRect().top<window.innerHeight-100){
+el.classList.add('show');
+}
+});
+});
+
+// калькулятор
+const service=document.getElementById('service');
+const price=document.getElementById('price');
+
+service.addEventListener('change',()=>{
+price.innerText="≈ "+service.value+" ₽";
+});
+</script>
 
 </body>
 </html>
