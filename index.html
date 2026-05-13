@@ -688,14 +688,16 @@
       </div>
     </div>
 
-    <!-- Anthropic API Key -->
+    <!-- Serper API Key -->
     <div class="form-group" style="margin-bottom:16px;">
-      <label>🤖 Anthropic API Key <span style="color:var(--warn);font-size:10px;">ОБЯЗАТЕЛЬНО для поиска</span></label>
+      <label>🔍 Serper.dev API Key <span style="color:var(--accent);font-size:10px;">2500 запросов бесплатно</span></label>
       <div style="position:relative;">
-        <input type="password" id="anthropicKey" placeholder="sk-ant-api03-..." style="padding-right:90px;">
+        <input type="password" id="serperKey" placeholder="a1b2c3d4e5f6..." style="padding-right:90px;">
         <button onclick="toggleKeyVisibility()" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:1px solid var(--border);color:var(--muted);font-size:10px;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:inherit;">показать</button>
       </div>
-      <div style="font-size:10px;color:var(--muted);margin-top:5px;">Получить: <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent2)">console.anthropic.com</a> → API Keys</div>
+      <div style="font-size:10px;color:var(--muted);margin-top:5px;">
+        Получить бесплатно: <a href="https://serper.dev" target="_blank" style="color:var(--accent2)">serper.dev</a> → Sign Up → API Key
+      </div>
     </div>
 
     <div class="form-row">
@@ -916,73 +918,67 @@ async function sendTelegramNotification(order, source) {
   }
 }
 
-// ── Реальный поиск через Claude API (web_search) ────────────
+// ── Поиск через Serper.dev (Google Search API) ───────────────
 
-async function searchOrdersWithClaude(keywords, source) {
-  const apiKey = document.getElementById('anthropicKey').value.trim();
-  if (!apiKey) {
-    addLog('⚠️ Укажите Anthropic API Key в настройках!', 'err');
-    return [];
-  }
-  const sourceQueries = {
-    kwork: `site:kwork.ru/projects (${keywords.slice(0,5).join(' OR ')}) разработчик`,
-    fl:    `site:fl.ru/projects (${keywords.slice(0,5).join(' OR ')})`,
-    yandex:`site:uslugi.yandex.ru (${keywords.slice(0,5).join(' OR ')}) разработка`,
-    tg:    `telegram фриланс заказы (${keywords.slice(0,4).join(' OR ')}) site:t.me`,
-  };
+const SOURCE_QUERIES = {
+  kwork:  kw => `site:kwork.ru/projects ${kw.slice(0,4).join(' OR ')}`,
+  tg:     kw => `${kw.slice(0,4).join(' OR ')} заказ разработка telegram`,
+};
 
-  const query = sourceQueries[source] || keywords.slice(0,5).join(' OR ');
-
-  const prompt = `Ты парсер заказов на разработку. Используй web_search чтобы найти РЕАЛЬНЫЕ актуальные заказы.
-
-Поищи: "${query}"
-
-Верни ТОЛЬКО JSON массив найденных заказов (не более 5). Каждый объект:
-{
-  "id": "уникальный id (source_хэш)",
-  "title": "заголовок заказа",
-  "desc": "описание 1-3 предложения",
-  "price": "цена или 'не указана'",
-  "url": "прямая ссылка на заказ",
-  "source": "${source}"
+function estimateComplexity(text) {
+  const t = text.toLowerCase();
+  const hard = ['crm','erp','saas','mvp','интеграция','api','нейросеть','llm','fullstack'];
+  const med  = ['бот','парсер','лендинг','автоматизация','react','vue','django','wordpress'];
+  const hScore = hard.filter(w => t.includes(w)).length;
+  const mScore = med.filter(w => t.includes(w)).length;
+  if (hScore >= 2) return '🔴 Сложный';
+  if (mScore >= 2 || hScore === 1) return '🟡 Средний';
+  return '🟢 Лёгкий';
 }
 
-Если реальных заказов не найдено — верни [].
-Отвечай ТОЛЬКО валидным JSON, без пояснений.`;
+function parseSerperResults(items, source) {
+  return items.map((item, i) => {
+    const title = (item.title || '').replace(/\s*[-|]\s*(Kwork|FL\.ru|Яндекс).*$/i, '').trim();
+    const desc  = item.snippet || '';
+    const url   = item.link || '#';
+    const priceMatch = desc.match(/(\d[\d\s]*[–\-]\d[\d\s]*\s*[₽$€к]|\d+\s*[₽$€]|\$\d+)/i);
+    return {
+      id:    `${source}_${btoa(unescape(encodeURIComponent(url))).slice(0,14)}`,
+      title: title || 'Заказ без заголовка',
+      desc,
+      price: priceMatch ? priceMatch[0].trim() : 'не указана',
+      complexity: estimateComplexity(title + ' ' + desc),
+      url,
+      source,
+      chat: source === 'tg' ? TG_CHATS[i % TG_CHATS.length] : null,
+      link: url,
+      time: 'только что',
+    };
+  }).filter(o => o.title && o.url !== '#');
+}
 
+async function searchOrders(keywords, source) {
+  const apiKey = document.getElementById('serperKey').value.trim();
+  if (!apiKey) {
+    addLog('⚠️ Укажите Serper.dev API Key!', 'err');
+    return [];
+  }
+  const queryFn = SOURCE_QUERIES[source] || (kw => kw.slice(0,4).join(' OR '));
   try {
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    const resp = await fetch('https://google.serper.dev/search', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
-        messages: [{ role: 'user', content: prompt }],
-      }),
+      headers: { 'X-API-KEY': apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ q: queryFn(keywords), gl: 'ru', hl: 'ru', num: 10 }),
     });
-
+    if (!resp.ok) {
+      const err = await resp.json().catch(() => ({}));
+      addLog(`⚠️ Serper (${source}): ${err.message || resp.status}`, 'err');
+      return [];
+    }
     const data = await resp.json();
-
-    // Собираем текстовые блоки из ответа
-    const text = (data.content || [])
-      .filter(b => b.type === 'text')
-      .map(b => b.text)
-      .join('');
-
-    // Вытаскиваем JSON из ответа
-    const match = text.match(/\[[\s\S]*\]/);
-    if (!match) return [];
-
-    const orders = JSON.parse(match[0]);
-    return orders.filter(o => o.title && o.url);
-
+    return parseSerperResults(data.organic || [], source);
   } catch(e) {
-    addLog(`⚠️ Claude API (${source}): ${e.message}`, 'err');
+    addLog(`⚠️ Serper (${source}): ${e.message}`, 'err');
     return [];
   }
 }
@@ -1005,42 +1001,25 @@ async function runCheck() {
   if (sources.tg)    activeSources.push('tg');
 
   for (const src of activeSources) {
-    const srcLabel = { kwork: 'Kwork.ru', fl: 'FL.ru', tg: 'Telegram' }[src] || src;
+    const srcLabel = { kwork: 'Kwork.ru', tg: 'Telegram' }[src] || src;
     addLog(`  → Ищу на ${srcLabel}...`, 'info');
 
-    const orders = await searchOrdersWithClaude(keywords, src);
+    const orders = await searchOrders(keywords, src);
     addLog(`  ✓ ${srcLabel}: найдено ${orders.length}`, orders.length ? 'ok' : '');
 
     for (const o of orders) {
-      const uid = `${src}_${btoa(o.url || o.title).slice(0,12)}`;
-      if (seenIds.has(uid)) continue;
-      seenIds.add(uid);
-
-      const order = {
-        ...o,
-        id: uid,
-        time: 'только что',
-        // для Telegram-источников берём случайный чат из списка
-        chat: src === 'tg' ? TG_CHATS[Math.floor(Math.random() * TG_CHATS.length)] : null,
-        link: o.url,
-      };
-
-      foundOrders.unshift({ order, source: src, isNew: true });
+      if (seenIds.has(o.id)) continue;
+      seenIds.add(o.id);
+      foundOrders.unshift({ order: o, source: src, isNew: true });
       found++;
       newToday++;
-      sendTelegramNotification(order, src);
+      sendTelegramNotification(o, src);
     }
   }
 
   document.getElementById('statTotal').textContent = foundOrders.length;
   document.getElementById('statNew').textContent = newToday;
-
-  if (found > 0) {
-    addLog(`🎉 Найдено ${found} новых реальных заказов!`, 'ok');
-  } else {
-    addLog('— Новых заказов не найдено', '');
-  }
-
+  addLog(found > 0 ? `🎉 Найдено ${found} новых заказов!` : '— Новых заказов не найдено', found > 0 ? 'ok' : '');
   renderFeed();
 }
 
@@ -1076,9 +1055,9 @@ function startMonitor() {
     addLog('⚠️ Добавьте хотя бы одно ключевое слово!', 'err');
     return;
   }
-  if (!document.getElementById('anthropicKey').value.trim()) {
-    addLog('⚠️ Укажите Anthropic API Key!', 'err');
-    document.getElementById('anthropicKey').focus();
+  if (!document.getElementById('serperKey').value.trim()) {
+    addLog('⚠️ Укажите Serper.dev API Key!', 'err');
+    document.getElementById('serperKey').focus();
     return;
   }
     addLog('⚠️ Выберите хотя бы один источник!', 'err');
